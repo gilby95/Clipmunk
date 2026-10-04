@@ -330,6 +330,9 @@ class EditorPane(QWidget):
         self.timeline = Timeline()
         self.timeline.seekRequested.connect(self._seek)
         self.timeline.rangeChanged.connect(self._range_from_timeline)
+        self.timeline.previewRequested.connect(self._preview_edge)
+        self.timeline.handleReleased.connect(self._end_preview)
+        self._resume_ms = None          # where the playhead was before an edge preview
         lay.addWidget(self.timeline)
 
         ctl = QHBoxLayout()
@@ -703,6 +706,8 @@ class EditorPane(QWidget):
             self.player.pause()
             self.player.setPosition(self.b)
             ms = self.b
+        if self._resume_ms is not None:      # previewing a trim edge: the playhead stays where it was
+            return
         self.timeline.set_position(ms)
         self.time_label.setText(f"{fmt_time(ms / 1000)}<span style='color:{theme.FAINT}'> / "
                                 f"{fmt_time(self.timeline.dur / 1000)}</span>")
@@ -723,6 +728,21 @@ class EditorPane(QWidget):
 
     def _seek(self, ms):
         self.player.setPosition(int(ms))
+
+    def _preview_edge(self, ms):
+        """Dragging a trim edge: show that frame while paused, then go back to where you were.
+        While playing, nothing jumps - the video keeps playing from the same spot."""
+        if self.player.playbackState() == QMediaPlayer.PlayingState:
+            return
+        if self._resume_ms is None:
+            self._resume_ms = self.player.position()
+        self.player.setPosition(int(ms))
+
+    def _end_preview(self):
+        if self._resume_ms is not None:
+            back, self._resume_ms = self._resume_ms, None
+            self.player.setPosition(back)
+            self.timeline.set_position(back)
 
     def toggle_play(self):
         if not self.clip:
@@ -756,6 +776,9 @@ class EditorPane(QWidget):
 
     def _range_changed(self):
         self.timeline.set_range(self.a, self.b)
+        pos = self._resume_ms if self._resume_ms is not None else self.player.position()
+        if not (self.a - 30 <= pos < self.b):
+            self._play_in_sel = False       # playhead is outside the box now: keep playing from there, no jump
         self._update_plan()
         self._trim_save.start()
         if self.export_stack.currentIndex() == 2:

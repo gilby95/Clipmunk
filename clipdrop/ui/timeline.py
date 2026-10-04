@@ -25,6 +25,8 @@ def _label(ms, step_s):
 class Timeline(QWidget):
     seekRequested = Signal(int)
     rangeChanged = Signal(int, int)
+    previewRequested = Signal(int)      # show this frame while a handle is dragged; the playhead stays put
+    handleReleased = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -235,19 +237,22 @@ class Timeline(QWidget):
         if self._drag == "a":
             self.a = max(0, min(ms, self.b - MIN_SEL_MS))
             self.rangeChanged.emit(self.a, self.b)
-            self.seekRequested.emit(self.a)
+            self.previewRequested.emit(self.a)
         elif self._drag == "b":
             self.b = min(self.dur, max(ms, self.a + MIN_SEL_MS))
             self.rangeChanged.emit(self.a, self.b)
-            self.seekRequested.emit(self.b)
+            self.previewRequested.emit(self.b)
         else:
             self.pos = ms
             self.seekRequested.emit(ms)
         self.update()
 
     def mouseReleaseEvent(self, _):
+        was_handle = self._drag in ("a", "b")
         self._drag = None
         self.update()
+        if was_handle:
+            self.handleReleased.emit()
 
     def leaveEvent(self, _):
         if self._hover:
