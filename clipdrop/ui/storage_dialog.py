@@ -45,7 +45,7 @@ class StorageDialog(QDialog):
         self.setWindowTitle("Compressed clips")
         self.resize(680, 560)
         shell = Shell(self, "Compressed clips",
-                      "The smaller copies ClipDrop made for Discord. Your original recordings are never touched.",
+                      "The smaller copies Clipmunk made for Discord. Your original recordings are never touched.",
                       width=640)
         body = shell.body
 
@@ -173,7 +173,7 @@ class StorageDialog(QDialog):
         if QMessageBox.question(
                 self, "Delete compressed clips",
                 f"Move {what} ({fmt_size(size)}) to the Recycle Bin?\n\n"
-                "Only ClipDrop's smaller copies are removed. Your original recordings stay where they are."
+                "Only Clipmunk's smaller copies are removed. Your original recordings stay where they are."
         ) != QMessageBox.Yes:
             return
         failed = storage.recycle(paths)

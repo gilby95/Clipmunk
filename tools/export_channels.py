@@ -1,7 +1,8 @@
 """Builds your Discord channels into the release so friends get them preinstalled.
 
-Takes the channels you added in ClipDrop's Settings on this PC (plus share_channels.json
-in the project folder, if you made one) and writes release/ClipDrop/share.json.
+Takes the channels you added in Clipmunk's Settings on this PC (plus share_channels.json
+in the project folder, if you made one) and writes release/Clipmunk/share.json.
+(Settings still live in %APPDATA%\ClipDrop - the folder kept its pre-rename name.)
 """
 import json
 import os
@@ -26,9 +27,9 @@ for path in (os.path.join(root, "share_channels.json"),
     except (OSError, ValueError, AttributeError):
         pass
 
-out = os.path.join(root, "release", "ClipDrop", "share.json")
+out = os.path.join(root, "release", "Clipmunk", "share.json")
 if not os.path.isdir(os.path.dirname(out)):
-    sys.exit("release\\ClipDrop doesn't exist yet")
+    sys.exit("release\\Clipmunk doesn't exist yet")
 if channels:
     with open(out, "w", encoding="utf-8") as f:
         json.dump({"channels": channels}, f, indent=2)
@@ -36,4 +37,4 @@ if channels:
 else:
     if os.path.exists(out):
         os.remove(out)
-    print("No Discord channels to build in (add some in ClipDrop > Settings first).")
+    print("No Discord channels to build in (add some in Clipmunk > Settings first).")

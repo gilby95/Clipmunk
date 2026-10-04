@@ -1,10 +1,13 @@
-"""Where ClipDrop keeps its settings, cache and bundled tools."""
+"""Where Clipmunk keeps its settings, cache and bundled tools."""
 import os
 import shutil
 import sys
 from pathlib import Path
 
-APP_NAME = "ClipDrop"
+APP_NAME = "Clipmunk"
+# Settings and cache stay in %APPDATA%\ClipDrop / %LOCALAPPDATA%\ClipDrop (the app was called
+# ClipDrop until 1.6), so updating keeps everyone's folders, channels and history.
+DATA_DIR = "ClipDrop"
 
 
 def app_root() -> Path:
@@ -31,17 +34,17 @@ def tool(name: str) -> str:
     found = shutil.which(name)
     if found:
         return found
-    raise FileNotFoundError(f"{name} wasn't found. Put {exe} in the 'bin' folder next to ClipDrop.")
+    raise FileNotFoundError(f"{name} wasn't found. Put {exe} in the 'bin' folder next to Clipmunk.")
 
 
 def config_dir() -> Path:
-    d = Path(os.environ.get("APPDATA") or Path.home()) / APP_NAME
+    d = Path(os.environ.get("APPDATA") or Path.home()) / DATA_DIR
     d.mkdir(parents=True, exist_ok=True)
     return d
 
 
 def cache_dir() -> Path:
-    d = Path(os.environ.get("LOCALAPPDATA") or Path.home()) / APP_NAME / "cache"
+    d = Path(os.environ.get("LOCALAPPDATA") or Path.home()) / DATA_DIR / "cache"
     d.mkdir(parents=True, exist_ok=True)
     return d
 

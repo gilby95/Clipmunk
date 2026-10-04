@@ -1,14 +1,14 @@
-# ClipDrop
+# Clipmunk
 
 Pull your gaming clips from any capture app, trim them, shrink them to fit Discord, and drag them straight into chat.
 
 ## Download
 
-**[Download ClipDrop-Setup.exe](https://github.com/gilby95/ClipDrop/releases/latest/download/ClipDrop-Setup.exe)**, run it, done: desktop icon, Start menu entry, uninstall from Windows settings. No admin needed.
+**[Download Clipmunk-Setup.exe](https://github.com/gilby95/Clipmunk/releases/latest/download/Clipmunk-Setup.exe)**, run it, done: desktop icon, Start menu entry, uninstall from Windows settings. No admin needed.
 
 Windows may say "Windows protected your PC" because the installer isn't code-signed: click **More info → Run anyway**.
 
-Works on any Windows PC: it compresses with your NVIDIA / AMD / Intel GPU if you have one, otherwise the CPU. ClipDrop updates itself: when there's a new version you'll see **Update to x.y** in the sidebar.
+Works on any Windows PC: it compresses with your NVIDIA / AMD / Intel GPU if you have one, otherwise the CPU. Clipmunk updates itself: when there's a new version you'll see **Update to x.y** in the sidebar.
 
 ## Using it
 
@@ -20,7 +20,7 @@ Works on any Windows PC: it compresses with your NVIDIA / AMD / Intel GPU if you
 
 You can also drag any clip straight from the list; it sends the compressed copy if there is one.
 
-Settings: where compressed clips are saved (default `Videos\ClipDrop`), and Fast (GPU) vs Best quality (CPU, about 3x slower).
+Settings: where compressed clips are saved (default `Videos\Clipmunk`), and Fast (GPU) vs Best quality (CPU, about 3x slower).
 
 ## Sharing to Discord
 
@@ -29,7 +29,7 @@ Settings: where compressed clips are saved (default `Videos\ClipDrop`), and Fast
 ## Developing
 
 - `run.bat` runs from source (sets up `.venv` and downloads ffmpeg the first time).
-- `build.bat` makes `ClipDrop-Setup.exe` (needs Inno Setup: `winget install JRSoftware.InnoSetup --scope user`).
-- `release.bat "what changed"` bumps the version, builds, and publishes a GitHub release; everyone's ClipDrop offers the update next time it opens.
+- `build.bat` makes `Clipmunk-Setup.exe` (needs Inno Setup: `winget install JRSoftware.InnoSetup --scope user`).
+- `release.bat "what changed"` bumps the version, builds, and publishes a GitHub release; everyone's Clipmunk offers the update next time it opens.
 
 Code: `clipdrop/compress.py` (size targeting), `library.py` (folder watching), `finder.py` (capture-app folders), `ui/` (Qt windows).

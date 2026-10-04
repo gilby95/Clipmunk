@@ -305,41 +305,43 @@ def repolish(w):
     w.update()
 
 
+# Clipmunk: a chipmunk with stuffed cheeks (it crams big clips into small files), lime tile, dark face.
+LOGO_SVG = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<rect width="64" height="64" rx="15" fill="{ACCENT}"/>
+<circle cx="18" cy="18.5" r="6.2" fill="{ON_ACCENT}"/><circle cx="46" cy="18.5" r="6.2" fill="{ON_ACCENT}"/>
+<circle cx="18" cy="18.5" r="2.4" fill="{ACCENT}"/><circle cx="46" cy="18.5" r="2.4" fill="{ACCENT}"/>
+<path d="M32 14c9 0 15 5 16.5 12 5.5 2 8.5 6.5 8.5 11.5 0 9-11 15-25 15S7 46.5 7 37.5c0-5 3-9.5 8.5-11.5C17 19 23 14
+ 32 14z" fill="{ON_ACCENT}"/>
+<rect x="30.2" y="15.5" width="3.6" height="12" rx="1.8" fill="{ACCENT}"/>
+<path d="M23.5 19.5v5.5M40.5 19.5v5.5" stroke="{ACCENT}" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="24" cy="32.5" r="3.2" fill="{ACCENT}"/><circle cx="40" cy="32.5" r="3.2" fill="{ACCENT}"/>
+<ellipse cx="32" cy="39.5" rx="3" ry="2.2" fill="{ACCENT}"/>
+<rect x="29.6" y="43.5" width="4.8" height="5" rx="1.2" fill="{ACCENT}"/>
+<rect x="31.6" y="43.5" width="0.8" height="5" fill="{ON_ACCENT}"/>
+</svg>"""
+
+# Hand-placed pixels so the 16 px taskbar / title-bar icon stays crisp.
+LOGO_16_SVG = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+<rect width="16" height="16" rx="3" fill="{ACCENT}" shape-rendering="geometricPrecision"/>
+<rect x="2" y="2" width="4" height="4" fill="{ON_ACCENT}"/><rect x="10" y="2" width="4" height="4" fill="{ON_ACCENT}"/>
+<rect x="2" y="2" width="1" height="1" fill="{ACCENT}"/><rect x="13" y="2" width="1" height="1" fill="{ACCENT}"/>
+<rect x="3" y="4" width="10" height="2" fill="{ON_ACCENT}"/>
+<rect x="2" y="6" width="12" height="7" fill="{ON_ACCENT}"/><rect x="1" y="8" width="14" height="4" fill="{ON_ACCENT}"/>
+<rect x="3" y="13" width="10" height="1" fill="{ON_ACCENT}"/>
+<rect x="7" y="4" width="2" height="3" fill="{ACCENT}"/>
+<rect x="5" y="8" width="2" height="2" fill="{ACCENT}"/><rect x="9" y="8" width="2" height="2" fill="{ACCENT}"/>
+<rect x="7" y="11" width="2" height="1" fill="{ACCENT}"/>
+</svg>"""
+
+
 def draw_logo(size=256) -> QPixmap:
-    """Lime tile with a down-pointing triangle dropping onto a bar ("the drop")."""
+    """The Clipmunk app icon at any size (the pixel-tuned version at 20 px and below)."""
     pm = QPixmap(size, size)
     pm.fill(Qt.transparent)
     p = QPainter(pm)
     p.setRenderHint(QPainter.Antialiasing)
-    s = size / 64
-    p.setPen(Qt.NoPen)
-    p.setBrush(QBrush(QColor(ACCENT)))
-    dark = QColor(ON_ACCENT)
-    if size <= 20:                              # squarer and simpler so it stays crisp at 16 px
-        s = size / 16
-        p.drawRoundedRect(QRectF(0, 0, 16 * s, 16 * s), 3 * s, 3 * s)
-        p.setBrush(dark)
-        tri = QPainterPath()
-        tri.moveTo(4 * s, 4 * s)
-        tri.lineTo(12 * s, 4 * s)
-        tri.lineTo(8 * s, 9 * s)
-        tri.closeSubpath()
-        p.drawPath(tri)
-        p.drawRect(QRectF(4 * s, 11 * s, 8 * s, 2 * s))
-        p.end()
-        return pm
-    p.drawRoundedRect(QRectF(0, 0, 64 * s, 64 * s), 15 * s, 15 * s)
-    from PySide6.QtGui import QPen
-    p.setBrush(dark)
-    p.setPen(QPen(dark, 5 * s, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-    tri = QPainterPath()
-    tri.moveTo(QPointF(20 * s, 18 * s))
-    tri.lineTo(QPointF(44 * s, 18 * s))
-    tri.lineTo(QPointF(32 * s, 36 * s))
-    tri.closeSubpath()
-    p.drawPath(tri)
-    p.setPen(Qt.NoPen)
-    p.drawRoundedRect(QRectF(18 * s, 43 * s, 28 * s, 7 * s), 3.5 * s, 3.5 * s)
+    svg = LOGO_16_SVG if size <= 20 else LOGO_SVG
+    QSvgRenderer(QByteArray(svg.encode())).render(p, QRectF(0, 0, size, size))
     p.end()
     return pm
 

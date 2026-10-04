@@ -294,7 +294,7 @@ class OnboardingDialog(QDialog):
     def __init__(self, settings, parent=None):
         super().__init__(parent)
         self.settings = settings
-        self.setWindowTitle("Welcome to ClipDrop")
+        self.setWindowTitle("Welcome to Clipmunk")
         self.setFixedSize(560, 540)
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
@@ -345,7 +345,7 @@ class OnboardingDialog(QDialog):
         logo.setPixmap(theme.logo_label_pixmap(84))
         lay.addWidget(logo, 0, Qt.AlignHCenter)
         lay.addSpacing(18)
-        t = label("Welcome to ClipDrop")
+        t = label("Welcome to Clipmunk")
         t.setStyleSheet("font-size: 26px; font-weight: 700;")
         t.setAlignment(Qt.AlignCenter)
         lay.addWidget(t)
@@ -454,7 +454,7 @@ class OnboardingDialog(QDialog):
 
     def _sync_preview(self, *_):
         n = self.name.text().strip() or "you"
-        self.preview.setText(f"<b>{n}</b> <span style='color:{theme.FAINT}; font-size:12px'>via ClipDrop</span>")
+        self.preview.setText(f"<b>{n}</b> <span style='color:{theme.FAINT}; font-size:12px'>via Clipmunk</span>")
 
     def _sync_next(self, *_):
         i = self.pages.currentIndex()
@@ -493,10 +493,10 @@ class SettingsDialog(QDialog):
         super().__init__(parent)
         self.settings = settings
         from .. import __version__
-        self.setWindowTitle(f"ClipDrop settings  ·  version {__version__}")
+        self.setWindowTitle(f"Clipmunk settings  ·  version {__version__}")
         s = Shell(self, "Settings", divider=True, width=620)
         s.title.setText(f"Settings  <span style='font-family:\"{theme.MONO_FONT}\"; font-size:12px; "
-                        f"font-weight:500; color:{theme.FAINT}'>ClipDrop {__version__}</span>")
+                        f"font-weight:500; color:{theme.FAINT}'>Clipmunk {__version__}</span>")
         lay = s.body
         lay.setSpacing(8)
 
@@ -525,7 +525,7 @@ class SettingsDialog(QDialog):
         cards.addWidget(self.fast)
         cards.addWidget(self.best)
         lay.addLayout(cards)
-        lay.addWidget(label("Works on any PC. If the GPU encoder fails, ClipDrop switches to the CPU on its own.",
+        lay.addWidget(label("Works on any PC. If the GPU encoder fails, Clipmunk switches to the CPU on its own.",
                             "Faint", wrap=True))
 
         lay.addSpacing(12)
@@ -585,7 +585,7 @@ class SettingsDialog(QDialog):
         for ch in bundled_channels():
             if ch["url"] in mine:
                 continue
-            it = QListWidgetItem(f"#  {ch['name']}   ·  up to {ch.get('limit_mb', 20):g} MB      came with ClipDrop")
+            it = QListWidgetItem(f"#  {ch['name']}   ·  up to {ch.get('limit_mb', 20):g} MB      came with Clipmunk")
             it.setFlags(it.flags() & ~Qt.ItemIsSelectable)
             it.setToolTip("Built into this install, so it can't be removed")
             self.channel_list.addItem(it)

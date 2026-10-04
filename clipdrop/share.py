@@ -46,7 +46,7 @@ def webhook_info(url):
     """Checks a webhook link still works. Returns Discord's info about it."""
     conn, target = _connect(url.strip(), timeout=15)
     try:
-        conn.request("GET", target, headers={"User-Agent": f"ClipDrop/{__version__}"})
+        conn.request("GET", target, headers={"User-Agent": f"Clipmunk/{__version__}"})
         resp = conn.getresponse()
         body = resp.read()
     except OSError as e:
@@ -80,7 +80,7 @@ def post_clip(url, path, *, username, content="", on_progress=lambda f: None, ca
                 conn.putrequest("POST", target)
                 conn.putheader("Content-Type", f"multipart/form-data; boundary={b}")
                 conn.putheader("Content-Length", str(len(head) + size + len(tail)))
-                conn.putheader("User-Agent", f"ClipDrop/{__version__}")
+                conn.putheader("User-Agent", f"Clipmunk/{__version__}")
                 conn.endheaders()
                 conn.send(head)
                 sent = 0

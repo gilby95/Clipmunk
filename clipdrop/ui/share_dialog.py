@@ -164,7 +164,7 @@ class ShareDialog(QDialog):
                                        sh["opts"]["fps_pref"], has_audio=sh["info"].get("audio_tracks", 0) > 0)
                     notes.append(f"This clip is {fmt_size(self.size)}, but posts to #{ch['name']} can only be "
                                  f"{limit:g} MB (that's the server's limit; Nitro only counts when you upload "
-                                 f"yourself). ClipDrop will make a {limit:g} MB copy and send that. "
+                                 f"yourself). Clipmunk will make a {limit:g} MB copy and send that. "
                                  "Your bigger version stays, so you can still drag it in yourself.")
                     kind = "warn"
                 except compress.TooLong as e:
@@ -214,7 +214,7 @@ class ShareDialog(QDialog):
         self.send_btn.setIcon(QIcon())
         self._banner("")
         cancel, bridge, path = self._cancel, self.bridge, self.path
-        username = f"{self.settings['display_name']} via ClipDrop"
+        username = f"{self.settings['display_name']} via Clipmunk"
         content = self.message.text().strip()
         limit = float(ch.get("limit_mb") or 20)
         sh = self.shrink if self._need_shrink else None
@@ -330,7 +330,7 @@ class AddChannelDialog(QDialog):
         self.boost.setMinimumHeight(36)
         for text, mb in BOOST_LIMITS:
             self.boost.addItem(f"{text}  ·  {mb} MB", mb)
-        self.boost.setToolTip("Posts from ClipDrop use the server's upload limit, not anyone's Nitro.\n"
+        self.boost.setToolTip("Posts from Clipmunk use the server's upload limit, not anyone's Nitro.\n"
                               "Check Server Settings → Server Boost to see your level.")
         lay.addWidget(self.boost)
         lay.addSpacing(6)

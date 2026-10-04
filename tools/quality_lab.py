@@ -83,7 +83,7 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     info = media.probe(a.src)
 
-    # Near-lossless reference of exactly this stretch, all audio tracks mixed (like ClipDrop does).
+    # Near-lossless reference of exactly this stretch, all audio tracks mixed (like Clipmunk does).
     ref = os.path.join(out_dir, "00-reference.mkv")
     if not os.path.exists(ref):
         n = info["audio_tracks"]

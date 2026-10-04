@@ -1,6 +1,6 @@
-"""The compressed copies ClipDrop has made: find them, add them up, clean them out.
+"""The compressed copies Clipmunk has made: find them, add them up, clean them out.
 
-Only files ClipDrop itself names (…_20MB.mp4, …_00m05s_50MB.mp4, leftover .part.mp4) are ever
+Only files Clipmunk itself names (…_20MB.mp4, …_00m05s_50MB.mp4, leftover .part.mp4) are ever
 listed or deleted, so pointing the save folder at e.g. Videos can't touch anyone's recordings.
 """
 import os

@@ -1,5 +1,5 @@
 @echo off
-rem Downloads ffmpeg + ffprobe (shared build: small exes + one set of DLLs) into ClipDrop\bin
+rem Downloads ffmpeg + ffprobe (shared build: small exes + one set of DLLs) into Clipmunk\bin
 cd /d "%~dp0.."
 if exist "bin\ffmpeg.exe" if exist "bin\ffprobe.exe" exit /b 0
 echo Downloading ffmpeg (about 90 MB)...

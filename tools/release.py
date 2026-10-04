@@ -1,9 +1,9 @@
-"""Publishes a new ClipDrop version that friends' apps pick up automatically.
+"""Publishes a new Clipmunk version that friends' apps pick up automatically.
 
     release.bat "What's new in this version"
 
 Bumps the version (1.1.0 -> 1.2.0, or pass --version 2.0.0), builds the installer,
-and uploads it as a GitHub release. ClipDrop on friends' PCs checks on startup.
+and uploads it as a GitHub release. Clipmunk on friends' PCs checks on startup.
 """
 import argparse
 import json
@@ -11,6 +11,7 @@ import os
 import re
 import shutil
 import subprocess
+import tempfile
 import sys
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -53,7 +54,7 @@ def main():
     run(g, "auth", "status", capture=True)
     repo = a.repo or re.search(r'^REPO = "(.*)"', read(UPDATE), re.M).group(1)
     if not repo:
-        sys.exit('No release repo set yet. Run once with --repo yourname/ClipDrop')
+        sys.exit('No release repo set yet. Run once with --repo yourname/Clipmunk')
     run(g, "repo", "view", repo, "--json", "name", capture=True)
 
     old = re.search(r'__version__ = "(.+)"', read(INIT)).group(1)
@@ -64,16 +65,22 @@ def main():
         new = f"{major}.{minor + 1}.0"
     write(INIT, f'__version__ = "{new}"\n')
     write(UPDATE, re.sub(r'^REPO = ".*"', f'REPO = "{repo}"', read(UPDATE), flags=re.M))
-    print(f"Releasing ClipDrop {new} to github.com/{repo}")
+    print(f"Releasing Clipmunk {new} to github.com/{repo}")
 
     if subprocess.run(["cmd", "/c", os.path.join(ROOT, "build.bat")], cwd=ROOT, stdin=subprocess.DEVNULL).returncode:
         write(INIT, f'__version__ = "{old}"\n')
         sys.exit("Build failed; version left at " + old)
-    setup = os.path.join(ROOT, "ClipDrop-Setup.exe")
-    notes = a.notes or f"ClipDrop {new}"
-    run(g, "release", "create", f"v{new}", setup, "--repo", repo, "--title", f"ClipDrop {new}", "--notes", notes)
-    print(f"\nDone. Friends will see 'Update to {new}' next time they open ClipDrop.")
-    print(f"First-time download link: https://github.com/{repo}/releases/latest/download/ClipDrop-Setup.exe")
+    setup = os.path.join(ROOT, "Clipmunk-Setup.exe")
+    # Copies from before the rename (ClipDrop 1.5 and older) look for this file name, so the same
+    # installer is uploaded under it too. Safe to drop once nobody is on 1.5 any more.
+    legacy = os.path.join(tempfile.mkdtemp(prefix="clipmunk_rel_"), "ClipDrop-Setup.exe")
+    shutil.copyfile(setup, legacy)
+    notes = a.notes or f"Clipmunk {new}"
+    run(g, "release", "create", f"v{new}", setup, legacy, "--repo", repo, "--title", f"Clipmunk {new}",
+        "--notes", notes)
+    shutil.rmtree(os.path.dirname(legacy), ignore_errors=True)
+    print(f"\nDone. Friends will see 'Update to {new}' next time they open Clipmunk.")
+    print(f"First-time download link: https://github.com/{repo}/releases/latest/download/Clipmunk-Setup.exe")
 
 
 if __name__ == "__main__":

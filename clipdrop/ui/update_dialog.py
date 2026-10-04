@@ -37,8 +37,8 @@ class UpdateDialog(QDialog):
     def __init__(self, info, busy=False, parent=None):
         super().__init__(parent)
         self.info, self.busy = info, busy
-        self.setWindowTitle("Update ClipDrop")
-        s = Shell(self, f"ClipDrop {info['version']} is out",
+        self.setWindowTitle("Update Clipmunk")
+        s = Shell(self, f"Clipmunk {info['version']} is out",
                   f"You have {__version__}. Updating takes about a minute; your clips, folders and "
                   "settings stay as they are.")
         head = s.title.parentWidget().layout()
@@ -78,7 +78,7 @@ class UpdateDialog(QDialog):
         lay.addStretch()
         s.footer.addStretch()
         self.later = button("Skip")
-        self.later.setToolTip("Not now. You'll be asked again next time you open ClipDrop,"
+        self.later.setToolTip("Not now. You'll be asked again next time you open Clipmunk,"
                               " or update any time from the button in the sidebar.")
         self.go = button("Update now", "Primary", "update", theme.ON_ACCENT)
         self.go.setDefault(True)
@@ -120,7 +120,7 @@ class UpdateDialog(QDialog):
         self.progress.hide()
         self.progress_label.hide()
         self.later.hide()
-        self.status.setText(f"<b>Installing…</b> <span style='color:{theme.MUTED}'>ClipDrop will reopen by itself.</span>")
+        self.status.setText(f"<b>Installing…</b> <span style='color:{theme.MUTED}'>Clipmunk will reopen by itself.</span>")
         self.repaint()
         try:
             update.run_installer(path)

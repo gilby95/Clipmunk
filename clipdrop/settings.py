@@ -27,7 +27,7 @@ DEFAULTS = {
     "mix_audio": True,
     "copy_when_done": True,
     "encoder": "fast",
-    "export_dir": str(videos_dir() / "ClipDrop"),
+    "export_dir": str(videos_dir() / "Clipmunk"),
     "sort": "newest",
     "volume": 0.8,
     "loop": True,

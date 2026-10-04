@@ -6,7 +6,7 @@ def main():
     if os.name == "nt":
         try:  # own taskbar icon instead of python.exe's
             import ctypes
-            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ClipDrop.App")
+            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("Clipmunk.App")
         except Exception:
             pass
     from PySide6.QtWidgets import QApplication
@@ -15,7 +15,7 @@ def main():
     from .ui import theme
 
     app = QApplication(sys.argv)
-    app.setApplicationName("ClipDrop")
+    app.setApplicationName("Clipmunk")
     app.setStyle("Fusion")
     theme.init_fonts()
     app.setFont(theme.ui(13))

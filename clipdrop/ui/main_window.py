@@ -114,7 +114,7 @@ class KeyFilter(QObject):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("ClipDrop")
+        self.setWindowTitle("Clipmunk")
         self.setWindowIcon(app_icon())
         self.settings = Settings()
         self.library = Library(self.settings, self)
@@ -195,7 +195,7 @@ class MainWindow(QMainWindow):
         brand.addWidget(logo)
         col = QVBoxLayout()
         col.setSpacing(1)
-        title = QLabel("ClipDrop")
+        title = QLabel("Clipmunk")
         title.setObjectName("AppTitle")
         col.addWidget(title)
         sub = QLabel("Clips → Discord, sized right.")
@@ -248,7 +248,7 @@ class MainWindow(QMainWindow):
         self.storage_btn = QPushButton(" Compressed clips")
         self.storage_btn.setObjectName("SideNav")
         self.storage_btn.setIcon(theme.icon("storage", theme.TEXT_2))
-        self.storage_btn.setToolTip("See, open and clean out the smaller copies ClipDrop made")
+        self.storage_btn.setToolTip("See, open and clean out the smaller copies Clipmunk made")
         self.storage_btn.clicked.connect(self.open_storage)
         srow.addWidget(self.storage_btn, 1)
         self.storage_size = QLabel("")
@@ -365,7 +365,7 @@ class MainWindow(QMainWindow):
         self._update_info = info
         self.update_btn.setText(f"Update to {info['version']}")
         self.update_btn.show()
-        self.statusBar().showMessage(f"ClipDrop {info['version']} is available", 15000)
+        self.statusBar().showMessage(f"Clipmunk {info['version']} is available", 15000)
         if getattr(self, "_prompted_version", None) != info["version"]:     # pop up once per version per launch
             self._prompted_version = info["version"]
             QTimer.singleShot(500, self._prompt_update)
@@ -508,7 +508,7 @@ class MainWindow(QMainWindow):
         if not self.settings["folders"]:
             self._empty_tile("find", True)
             self.empty_title.setText("Where do your clips go?")
-            self.empty_hint.setText("ClipDrop watches the folders your recording app saves to (OBS, NVIDIA, Medal, "
+            self.empty_hint.setText("Clipmunk watches the folders your recording app saves to (OBS, NVIDIA, Medal, "
                                     "Xbox Game Bar, AMD) and puts every clip in one list.")
             self.empty_btn.show()
             self.empty_link.show()
